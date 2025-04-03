@@ -1,0 +1,11 @@
+FROM php8.3-fpm
+
+#基本パッケージのインストールに
+RUN apt-get update && apt-get install -y \
+    git unzip curl libpng-dev libonig-dev libxml2-dev zip \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# composerのインストール
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www
